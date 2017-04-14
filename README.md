@@ -1,7 +1,8 @@
 React dashboard
----
+--
 
-# The task
+The task
+---
 
 The data represents the evolution of the usage of a list of clients, over the last 12 months.
 
@@ -43,4 +44,5 @@ npm start
 Resources
 ---
 https://www.fullstackreact.com/
+
 https://github.com/facebookincubator/create-react-app
