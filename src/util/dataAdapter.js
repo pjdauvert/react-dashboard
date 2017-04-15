@@ -11,10 +11,14 @@ const getRange = (domain) => {
     console.error("Adapter cannot load initial axis range");
     return [];
   } else {
+    // init vars
+    const dateFormat = 'MM-YYYY';
+    const start = moment(domain.from, dateFormat);
+    const end = moment(domain.to, dateFormat);
+    // insert first element
     const range = [];
-    const start = moment(domain.from, 'MM-YYYY');
-    const end = moment(domain.to, 'MM-YYYY');
     range.push(getRangeMoment(start));
+    // loop over date until end is reached
     while (start.isBefore(end)) {
       start.add(1, 'months');
       range.push(getRangeMoment(start));
@@ -23,17 +27,20 @@ const getRange = (domain) => {
   }
 }
 
+// generate initial state from data sample.
 export default (sample) => {
   return {
-    app: sample.categoriesY,
-    ordinate: {
-      label: sample.categoriesY,
-      data: sample.domainY
-    },
-    axis: {
-      range: getRange(sample.domainX),
-      data: sample.data,
-    },
-    globals: sample.globals
+    app: {
+      title: sample.categoriesY,
+      ordinate: {
+        label: sample.categoriesY,
+        data: sample.domainY
+      },
+      axis: {
+        range: getRange(sample.domainX),
+        data: sample.data,
+      },
+      globals: sample.globals
+    }
   };
 }
