@@ -1,7 +1,7 @@
 {
   "name": "react-dashboard",
   "version": "1.0.0",
-  "description": "",
+  "description": "Displays a data file using D3 charts",
   "main": "index.js",
   "author": "Pierre-Jacques Dauvert",
   "license": "ISC",
@@ -12,8 +12,11 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
+    "moment": "^2.18.1",
     "react": "^15.5.4",
-    "react-dom": "^15.5.4"
+    "react-dom": "^15.5.4",
+    "react-redux": "^5.0.4",
+    "redux": "^3.6.0"
   },
   "devDependencies": {
     "react-scripts": "0.9.5"
