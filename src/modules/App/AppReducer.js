@@ -11,6 +11,9 @@ const AppReducer = (state = initialState, action) => {
 };
 
 /* Selectors */
+export const getData = (state) => {
+  return state.app;
+}
 
 // Export Reducer
 export default AppReducer;

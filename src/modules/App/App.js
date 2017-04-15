@@ -1,27 +1,35 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
+import { getData } from './AppReducer';
 import { connect } from 'react-redux';
 
+import ChartView from '../Chart/ChartView';
 import './App.css';
 
 class App extends Component {
+
   render() {
+    const { data: { title } } = this.props;
     return (
       <div className="App">
         <div className="App-header">
           <img src="/assets/logo.jpg" className="App-logo" alt="logo" />
-          <h2>{this.props.title}</h2>
+          <h2>{title}</h2>
         </div>
-        <p className="App-intro">
-          Let's code and, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <div className="App-Content">
+          {/*<ChartView height={300} width={600} />*/}
+        </div>
       </div>
     );
   }
 }
 
 App.propTypes = {
-  title: PropTypes.string.isRequired
+  data: PropTypes.object.isRequired
 };
 
-export default connect(state => ({ title: state.app }))(App);
+const mapStateToProps = state => ({
+  data: getData(state)
+});
+
+export default connect(mapStateToProps)(App);
