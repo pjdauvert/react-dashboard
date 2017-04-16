@@ -32,14 +32,9 @@ export default (sample) => {
   return {
     app: {
       title: sample.categoriesY,
-      ordinate: {
-        label: sample.categoriesY,
-        data: sample.domainY
-      },
-      axis: {
-        range: getRange(sample.domainX),
-        data: sample.data,
-      },
+      customers: sample.domainY,
+      range: getRange(sample.domainX),
+      usage: sample.data,
       globals: sample.globals
     }
   };

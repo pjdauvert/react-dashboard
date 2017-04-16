@@ -3,10 +3,19 @@ import { PropTypes } from 'prop-types';
 import { getData } from './AppReducer';
 import { connect } from 'react-redux';
 
+// chart interactions
+import { buildCumulativeCustomerUsage } from '../../util/chartDataBuilder';
+import { updateChartAction } from '../../modules/Chart/ChartActions';
+
 import ChartView from '../Chart/ChartView';
 import './App.css';
 
 class App extends Component {
+
+  componentDidMount(){
+    const { data: { usage, range } } = this.props;
+    this.props.dispatch(updateChartAction(buildCumulativeCustomerUsage(usage, range)))
+  }
 
   render() {
     const { data: { title } } = this.props;
@@ -17,7 +26,7 @@ class App extends Component {
           <h2>{title}</h2>
         </div>
         <div className="App-Content">
-          {/*<ChartView height={300} width={600} />*/}
+          <ChartView height={600} width={800} />
         </div>
       </div>
     );
@@ -25,7 +34,8 @@ class App extends Component {
 }
 
 App.propTypes = {
-  data: PropTypes.object.isRequired
+  data: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

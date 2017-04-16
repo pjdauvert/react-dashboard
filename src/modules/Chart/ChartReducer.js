@@ -2,7 +2,7 @@
 import { UPDATE_CHART } from './ChartActions';
 
 // Initial State
-const initialState = { data: {} };
+const initialState = { data: null };
 
 const ChartReducer = (state = initialState, action) => {
   switch (action.type) {
