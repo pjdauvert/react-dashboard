@@ -74,3 +74,19 @@ export const buildChartData = (data, range) => {
   });
   return chartPlots;
 };
+
+export const getCustomerUsageDelta = (customer, globals) => {
+  const consolidatedCustomer = Object.assign({}, customer, { usage : {} });
+  Object.keys(globals).forEach(key => {
+    const usage = globals[key].find(usage => usage.salesforceId === customer.salesforceId);
+    if(usage) {
+      const delta = (usage.actualUsage / usage.predictedUsage) - 1;
+      consolidatedCustomer.usage[key] = { actualUsage: usage.actualUsage, predictedUsage: usage.predictedUsage, delta };
+    }
+  });
+  return consolidatedCustomer;
+};
+
+export const getCustomersUsageDelta = (customers, globals) => {
+  return customers.map(customer => getCustomerUsageDelta(customer, globals));
+};

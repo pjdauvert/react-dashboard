@@ -1,4 +1,4 @@
-import { buildChartData, aggregateCumulativeData } from './aggregation';
+import { buildChartData, aggregateCumulativeData, getCustomerUsageDelta } from './aggregation';
 import * as theming from '../modules/App/theming';
 
 // return flattened chart plots representing aggregated cumulative usage of customers
@@ -21,8 +21,6 @@ export const buildCumulativeCustomerUsage = (usageData, range) => {
         color: theming.secondaryColor
       }
     ],
-    // x : plot => new Date(plot.year, plot.month - 1, 1)
-    // xScale: 'time',
     x : plot => `${plot.month}/${plot.year}`, // x is a function that returns a comparable value out of the plot data
     xScale: 'ordinal',
   };
@@ -47,8 +45,6 @@ export const buildCustomerUsage = (customer, usageData, range) => {
         color: theming.secondaryColor
       }
     ],
-    // x : plot => new Date(plot.year, plot.month - 1, 1)
-    // xScale: 'time',
     x : plot => `${plot.month}/${plot.year}`, // x is a function that returns a comparable value out of the plot data
     xScale: 'ordinal',
   };

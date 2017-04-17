@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import ChartView from './ChartView';
 import { chartShape } from './ChartShape';
-import { getChart } from '../ChartReducer';
+import { getChart, getStat } from '../ChartReducer';
 import './Chart.css';
 
 const ChartCard = (props) => (
@@ -25,7 +25,8 @@ ChartCard.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  chart: getChart(state)
+  chart: getChart(state),
+  stat: getStat(state),
 });
 
 export default connect(mapStateToProps)(ChartCard);

@@ -13,7 +13,7 @@ import ChartCard from '../Chart/component/ChartCard';
 import ControlCard from '../Control/component/ControlCard';
 
 // actions
-import { showCumulativeChart, showCustomerChart } from '../Chart/ChartActions';
+import { showCumulativeChart, showCustomerChart, showCustomerStats } from '../Chart/ChartActions';
 import { getControlsCustomer } from '../Control/ControlReducer';
 
 import './App.css';
@@ -21,9 +21,12 @@ import './App.css';
 class App extends Component {
 
   componentWillReceiveProps(props){
-    const { customer, dispatch, data: { usage, range } } = props;
+    const { customer, dispatch, data: { usage, range, globals } } = props;
     if(!customer || customer === null) showCumulativeChart(usage, range)(dispatch);
-    else showCustomerChart(customer, usage, range)(dispatch)
+    else {
+      showCustomerChart(customer, usage, range)(dispatch);
+      showCustomerStats(customer, globals)(dispatch);
+    }
   }
 
   componentDidMount(){
