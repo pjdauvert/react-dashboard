@@ -1,6 +1,6 @@
 import { PropTypes } from 'prop-types';
 
-export const chartShape = PropTypes.shape({
+export default PropTypes.shape({
   title: PropTypes.string.isRequired,
   subtitle: PropTypes.string,
   description: PropTypes.string,

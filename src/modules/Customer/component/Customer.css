@@ -1,0 +1,36 @@
+.Customer {
+    display: flex;
+    align-items: flex-end;
+    -webkit-box-align: end;
+    -webkit-box-pack: end;
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
+
+.Info, .Stats {
+    display: flex;
+    flex-flow: column;
+}
+
+.Stats table {
+    width: 100%;
+    margin-top: -48px;
+}
+
+.Stats tr {
+    height: 24px;
+}
+
+.Stats tr > th{
+    vertical-align: top;
+    height: 32px;
+}
+
+.Stats th, .Stats td {
+    width: 80px;
+    text-align: center;
+    line-height: 16px;
+    vertical-align: middle;
+    padding: 4px;
+    border-bottom: 1px solid #eee;
+}

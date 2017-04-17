@@ -1,7 +1,7 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import { BarGroupChart } from 'react-d3-basic';
-import { chartShape } from './ChartShape';
+import chartShape from './ChartShape';
 
 const ChartView = props => (
   <BarGroupChart
@@ -16,7 +16,7 @@ const ChartView = props => (
   />);
 
 ChartView.propTypes = {
-  chart: chartShape.isRequired,
+  chart: chartShape,
   height: PropTypes.number.isRequired,
   width: PropTypes.number.isRequired,
 };

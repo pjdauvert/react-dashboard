@@ -1,18 +1,18 @@
 // Import Actions
-import { UPDATE_CHART, UPDATE_STAT } from './ChartActions';
+import { UPDATE_CHART, UPDATE_CUSTOMER } from './ChartActions';
 
 // Initial State
-const initialState = { data: null, stat: null };
+const initialState = { data: null, customer: null };
 
 const ChartReducer = (state = initialState, action) => {
-  const { stat, data } = state;
+  const { customer, data } = state;
   switch (action.type) {
     case UPDATE_CHART: return {
       data: action.chart,
-      stat
+      customer
     };
-    case UPDATE_STAT: return {
-      stat: action.customer,
+    case UPDATE_CUSTOMER: return {
+      customer: action.customer,
       data
     };
     default:
@@ -25,8 +25,8 @@ export const getChart = (state) => {
   return state.chart.data;
 };
 
-export const getStat = (state) => {
-  return state.chart.stat;
+export const getCustomer = (state) => {
+  return state.chart.customer;
 };
 
 // Export Reducer

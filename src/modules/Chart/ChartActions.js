@@ -2,7 +2,7 @@ import { buildCumulativeCustomerUsage, buildCustomerUsage } from '../../util/cha
 import { getCustomerUsageDelta } from '../../util/aggregation';
 
 export const UPDATE_CHART = 'UPDATE_CHART';
-export const UPDATE_STAT = 'UPDATE_STAT';
+export const UPDATE_CUSTOMER = 'UPDATE_CUSTOMER';
 
 export function updateChartAction(chart) {
   return {
@@ -11,9 +11,9 @@ export function updateChartAction(chart) {
   };
 }
 
-export function updateStatAction(customer) {
+export function updateCustomerAction(customer) {
   return {
-    type: UPDATE_STAT,
+    type: UPDATE_CUSTOMER,
     customer,
   };
 }
@@ -21,7 +21,7 @@ export function updateStatAction(customer) {
 export const showCumulativeChart = (usage, range) => {
   return dispatch =>  {
     dispatch(updateChartAction(buildCumulativeCustomerUsage(usage, range)));
-    dispatch(updateStatAction(null));
+    dispatch(updateCustomerAction(null));
   }
 };
 
@@ -30,5 +30,5 @@ export const showCustomerChart = (customer, usageData, range) => {
 };
 
 export const showCustomerStats = (customer, globals) => {
-  return dispatch =>  dispatch(updateStatAction(getCustomerUsageDelta(customer, globals)));
+  return dispatch =>  dispatch(updateCustomerAction(getCustomerUsageDelta(customer, globals)));
 };

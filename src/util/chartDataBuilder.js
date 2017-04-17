@@ -1,4 +1,5 @@
-import { buildChartData, aggregateCumulativeData, getCustomerUsageDelta } from './aggregation';
+import { buildChartData, aggregateCumulativeData } from './aggregation';
+import * as stringTools from './stringTools';
 import * as theming from '../modules/App/theming';
 
 // return flattened chart plots representing aggregated cumulative usage of customers
@@ -29,9 +30,8 @@ export const buildCumulativeCustomerUsage = (usageData, range) => {
 export const buildCustomerUsage = (customer, usageData, range) => {
   const customerData = usageData.filter(data => data.salesforceId === customer.salesforceId);
   return {
-    title: `${customer.name} usage`,
+    title: `${stringTools.capitalizeFirstLetter(customer.name)} usage`,
     subtitle: 'Amount per month',
-    description: `This chart shows trend for ${customer.name} with actual usage and predicted usage. Manager is ${customer.manager}. Owner is ${customer.owner}. Country: ${customer.country}`,
     chartData: buildChartData(customerData, range),
     chartSeries: [
       {

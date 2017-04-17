@@ -27,9 +27,6 @@
   padding-top: 64px;
   display: flex;
   margin: auto;
-  align-items: center;
-  -webkit-box-align: center;
-  -webkit-box-pack: center;
   flex-flow: row wrap;
   justify-content: space-around;
 }

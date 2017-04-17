@@ -7,6 +7,7 @@ import CloseIcon from 'material-ui/svg-icons/navigation/close';
 import IconButton from 'material-ui/IconButton';
 import { getControlsCustomer } from '../ControlReducer';
 import { updateCustomerAction } from '../ControlActions';
+import * as stringTools from '../../../util/stringTools';
 import './Control.css';
 
 class ControlCard extends Component {
@@ -16,7 +17,7 @@ class ControlCard extends Component {
   };
 
   componentWillReceiveProps(props) {
-    if(this.state.searchText === '' && props.customer) this.setState({ searchText: props.customer.name });
+    if(this.state.searchText === '' && props.customer) this.setState({ searchText: props.customer.name.toLowerCase() });
   };
 
   handleUpdateInput = (searchText) => {
@@ -24,7 +25,7 @@ class ControlCard extends Component {
   };
 
   handleNewRequest = () => {
-    const selectedCustomer = this.props.customers.find(customer => customer.name === this.state.searchText);
+    const selectedCustomer = this.props.customers.find(customer => customer.name.toLowerCase() === this.state.searchText.toLowerCase());
     if(!selectedCustomer) this.handleReset();
     else this.props.dispatch(updateCustomerAction(selectedCustomer));
   };
@@ -37,7 +38,7 @@ class ControlCard extends Component {
   render() {
     const { customers } = this.props;
     return <Card className="Control-card">
-      <CardTitle title="Filter Data"/>
+      <CardTitle title="View Options"/>
       <CardText>
         <div className="searchField">
           <AutoComplete
@@ -45,10 +46,11 @@ class ControlCard extends Component {
             searchText={this.state.searchText}
             onUpdateInput={this.handleUpdateInput}
             onNewRequest={this.handleNewRequest}
-            dataSource={customers.map(customer => customer.name)}
+            dataSource={customers.map(customer => stringTools.capitalizeFirstLetter(customer.name)).sort()}
             filter={AutoComplete.caseInsensitiveFilter}
             openOnFocus
-            maxSearchResults={10}
+            //maxSearchResults={5}
+            menuProps={{ maxHeight: 250, width: 256}}
           />
           <IconButton style={{ marginLeft: '-16px' }} touch onTouchTap={this.handleReset}>
             <CloseIcon />

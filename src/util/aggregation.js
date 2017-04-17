@@ -80,7 +80,7 @@ export const getCustomerUsageDelta = (customer, globals) => {
   Object.keys(globals).forEach(key => {
     const usage = globals[key].find(usage => usage.salesforceId === customer.salesforceId);
     if(usage) {
-      const delta = (usage.actualUsage / usage.predictedUsage) - 1;
+      const delta = usage.predictedUsage === 0 ? 0 : (usage.actualUsage / usage.predictedUsage) - 1;
       consolidatedCustomer.usage[key] = { actualUsage: usage.actualUsage, predictedUsage: usage.predictedUsage, delta };
     }
   });
