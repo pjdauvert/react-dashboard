@@ -8,3 +8,9 @@
     flex-direction: row;
     align-items: flex-end;
 }
+
+.Control-card h2{
+    line-height: 16px;
+    font-size: 14px;
+    font-weight: 500;
+}

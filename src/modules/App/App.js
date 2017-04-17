@@ -58,7 +58,7 @@ class App extends Component {
             </div>
           </div>
           <div className="App-content">
-            <ControlCard customers={this.props.data.customers} />
+            <ControlCard customers={this.props.data.customers} periods={Object.keys(this.props.data.globals)} />
             <ChartCard width={800} />
           </div>
         </div>
