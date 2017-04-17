@@ -23,10 +23,12 @@ const CustomerView = (props) => (
       <span>Manager: {props.details.manager}</span>
       <span>Country: {props.details.country}</span>
     </div>
-    <table className="Stats">
-      <thead><tr><th>Period</th><th>Predicted Usage</th><th>Actual Usage</th><th>Variation</th></tr></thead>
-      <tbody>{Object.keys(props.details.usage).map(key => renderStat(key, props.details.usage[key]))}</tbody>
-    </table>
+    <div className="Stats">
+      <table>
+        <thead><tr><th>Period</th><th>Predicted Usage</th><th>Actual Usage</th><th>Variation</th></tr></thead>
+        <tbody>{Object.keys(props.details.usage).map(key => renderStat(key, props.details.usage[key]))}</tbody>
+      </table>
+    </div>
   </div>
 );
 

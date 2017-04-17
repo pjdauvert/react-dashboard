@@ -17,7 +17,7 @@ const ChartCard = (props) => {
     width
   };
   return (
-    <Card className="Chart-card" style={{maxWidth: props.width}}>
+    <Card className="Chart-card" style={{maxWidth: width}}>
       <CardMedia className="Chart">
         {chart ?
           <ChartView height={dimensions.height} width={width} chart={chart}/> :
@@ -25,7 +25,7 @@ const ChartCard = (props) => {
       </CardMedia>
       <CardTitle title={chart ? chart.title : null} subtitle={chart ? chart.subtitle : null}/>
       <CardText>
-        {chart ? props.chart.description : null}
+        {chart ? chart.description : null}
         {customer ? <CustomerView details={customer} /> : null}
       </CardText>
     </Card>);

@@ -12,8 +12,7 @@
     flex-flow: column;
 }
 
-.Stats table {
-    width: 100%;
+.Stats {
     margin-top: -48px;
 }
 
