@@ -3,11 +3,16 @@ import { PropTypes } from 'prop-types';
 import { getData } from './AppReducer';
 import { connect } from 'react-redux';
 
+//Theming
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import * as theming from './theming';
+
 // chart interactions
+import ChartCard from '../Chart/component/ChartCard';
 import { buildCumulativeCustomerUsage } from '../../util/chartDataBuilder';
 import { updateChartAction } from '../../modules/Chart/ChartActions';
 
-import ChartView from '../Chart/ChartView';
 import './App.css';
 
 class App extends Component {
@@ -18,18 +23,33 @@ class App extends Component {
   }
 
   render() {
-    const { data: { title } } = this.props;
-    return (
-      <div className="App">
-        <div className="App-header">
-          <img src="/assets/logo.jpg" className="App-logo" alt="logo" />
-          <h2>{title}</h2>
+    const muiTheme = getMuiTheme({
+      fontFamily: theming.fontFamily,
+      palette: {
+        primary1Color: theming.primaryColor,
+        primary2Color: theming.primaryColorDark,
+        primary3Color: theming.primaryColorLight,
+        accent1Color: theming.accentColor,
+        accent2Color: theming.accentColorDark,
+        accent3Color: theming.secondaryColor,
+        textColor: theming.textColor,
+        alternateTextColor: theming.whiteColor,
+        canvasColor: theming.whiteColor,
+        userAgent: navigator.userAgent
+      }
+    });
+    return (<MuiThemeProvider muiTheme={muiTheme}>
+        <div className="App">
+          <div className="App-header">
+            <img src="/assets/logo.svg" className="App-logo" alt="logo" />
+            <div className="App-menu">
+            </div>
+          </div>
+          <div className="App-content">
+            <ChartCard width={800} />
+          </div>
         </div>
-        <div className="App-Content">
-          <ChartView height={600} width={800} />
-        </div>
-      </div>
-    );
+    </MuiThemeProvider>);
   }
 }
 

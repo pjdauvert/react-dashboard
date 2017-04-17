@@ -1,0 +1,8 @@
+.Chart-card {
+    margin: 16px;
+    max-width: 70%;
+}
+
+.Chart .legend {
+    margin: 8px auto 0;
+}
