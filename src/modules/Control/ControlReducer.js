@@ -1,13 +1,19 @@
 // Import Actions
-import { CUSTOMER_CONTROL_UPDATE } from './ControlActions';
+import { CUSTOMER_CONTROL_UPDATE, VARIATION_CONTROL_UPDATE } from './ControlActions';
 
 // Initial State
-const initialState = { data: { customer: null } };
+const initialState = { customer: null, variation: null };
 
 const ControlReducer = (state = initialState, action) => {
+  const { customer, variation } = state;
   switch (action.type) {
     case CUSTOMER_CONTROL_UPDATE: return {
-      data: { customer: action.customer }
+      customer: action.customer,
+      variation
+    };
+    case VARIATION_CONTROL_UPDATE: return {
+      customer,
+      variation: action.variation
     };
     default:
       return state;
@@ -16,7 +22,11 @@ const ControlReducer = (state = initialState, action) => {
 
 /* Selectors */
 export const getControlsCustomer = (state) => {
-  return state.controls.data.customer;
+  return state.controls.customer;
+};
+
+export const getControlsVariation = (state) => {
+  return state.controls.variation;
 };
 
 // Export Reducer

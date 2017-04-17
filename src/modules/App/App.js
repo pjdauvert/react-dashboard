@@ -11,27 +11,37 @@ import * as theming from './theming';
 // components
 import ChartCard from '../Chart/component/ChartCard';
 import ControlCard from '../Control/component/ControlCard';
+import CustomerList from '../Customer/component/CustomerList';
 
 // actions
-import { showCumulativeChart, showCustomerChart, showCustomerStats } from '../Chart/ChartActions';
-import { getControlsCustomer } from '../Control/ControlReducer';
+import { loadCumulativeChart, loadCustomerChart, loadCustomerStats } from '../Chart/ChartActions';
+import { getControlsCustomer, getControlsVariation } from '../Control/ControlReducer';
 
 import './App.css';
 
 class App extends Component {
 
+  state = {
+    showCustomerList: false
+  };
+
   componentWillReceiveProps(props){
-    const { customer, dispatch, data: { usage, range, globals } } = props;
-    if(!customer || customer === null) showCumulativeChart(usage, range)(dispatch);
-    else {
-      showCustomerChart(customer, usage, range)(dispatch);
-      showCustomerStats(customer, globals)(dispatch);
+    const { variation, customer, dispatch, data: { usage, range, globals } } = props;
+    if(customer && customer !== null) {
+      this.setState({showCustomerList: false}, () => {
+        loadCustomerChart(customer, usage, range)(dispatch);
+        loadCustomerStats(customer, globals)(dispatch);
+      });
+    } else if(variation && variation !== null && variation.tolerance !== null ) {
+      this.setState({showCustomerList: true});
+    } else {
+      this.setState({showCustomerList: false}, () => loadCumulativeChart(usage, range)(dispatch));
     }
   }
 
   componentDidMount(){
     const { dispatch, data: { usage, range } } = this.props;
-    showCumulativeChart(usage, range)(dispatch);
+    loadCumulativeChart(usage, range)(dispatch);
   }
 
   render() {
@@ -59,7 +69,7 @@ class App extends Component {
           </div>
           <div className="App-content">
             <ControlCard customers={this.props.data.customers} periods={Object.keys(this.props.data.globals)} />
-            <ChartCard width={800} />
+            {this.state.showCustomerList ? <CustomerList width={800}/> : <ChartCard width={800}/>}
           </div>
         </div>
     </MuiThemeProvider>);
@@ -69,12 +79,14 @@ class App extends Component {
 App.propTypes = {
   data: PropTypes.object.isRequired,
   customer: PropTypes.object,
+  variation: PropTypes.object,
   dispatch: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   data: getData(state),
-  customer: getControlsCustomer(state)
+  customer: getControlsCustomer(state),
+  variation: getControlsVariation(state)
 });
 
 export default connect(mapStateToProps)(App);

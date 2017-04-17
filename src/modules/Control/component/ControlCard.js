@@ -8,8 +8,8 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import CloseIcon from 'material-ui/svg-icons/navigation/close';
 import IconButton from 'material-ui/IconButton';
-import { getControlsCustomer } from '../ControlReducer';
-import { updateCustomerAction } from '../ControlActions';
+import { getControlsCustomer, getControlsVariation } from '../ControlReducer';
+import { updateCustomerAction, updateVariationAction } from '../ControlActions';
 import * as stringTools from '../../../util/stringTools';
 import './Control.css';
 
@@ -18,42 +18,61 @@ class ControlCard extends Component {
   state = {
     searchText: '',
     customersList: this.props.customers,
-    variationPeriod: this.props.periods[0],
-    variationTolerance: null,
-    variationGroup: 0,
+    period: this.props.periods[0],
+    tolerance: null,
+    group: 0,
   };
-
+  
   componentWillReceiveProps(props) {
-    if (this.state.searchText === '' && props.customer) this.setState({searchText: props.customer.name.toLowerCase()});
+    if (props.customer && props.customer.name !== this.state.searchText) this.setState({searchText: props.customer.name.toLowerCase()});
+    if (props.variation && props.variation.tolerance !== this.state.tolerance) {
+      const { tolerance, period, group } = props.variation;
+      this.setState({tolerance, group, period});
+    }
   };
 
+  updateVariation(){
+    const { period, tolerance, group } = this.state;
+    const variation = { period, tolerance, group };
+    this.props.dispatch(updateVariationAction(variation));
+  }
+  
   handleUpdateInput = (searchText) => {
     this.setState({searchText});
   };
 
-  handleVariationGroupChange = (event, variationGroup) => {
-    this.setState({variationGroup});
+  handleGroupChange = (event, group) => {
+    this.setState({group}, this.updateVariation);
   };
 
   handleToleranceInputChange = (event, tolerance) => {
-    const variationTolerance = Number(tolerance) || null;
-    if(variationTolerance < 0) this.setState({variationTolerance: null});
-    else this.setState({variationTolerance});
+    const formattedTolerance = Number(tolerance) || null;
+    if(tolerance < 0) this.setState({tolerance: null}, this.updateVariation);
+    else this.setState({tolerance: formattedTolerance}, () => {
+      this.updateVariation();
+      this.handleResetSearch();
+    });
   };
 
-  handleVariationPeriodChange = (event, index, variationPeriod) => {
-    this.setState({variationPeriod});
+  handlePeriodChange = (event, index, period) => {
+    this.setState({period}, this.updateVariation);
   };
 
   handleNewRequest = () => {
     const selectedCustomer = this.props.customers.find(customer => customer.name.toLowerCase() === this.state.searchText.toLowerCase());
-    if (!selectedCustomer) this.handleReset();
-    else this.props.dispatch(updateCustomerAction(selectedCustomer));
+    if (!selectedCustomer) this.handleResetSearch();
+    else {
+      this.props.dispatch(updateCustomerAction(selectedCustomer));
+      this.handleResetVariation();
+    }
   };
 
-  handleReset = () => {
-    this.setState({searchText: ''});
-    this.props.dispatch(updateCustomerAction(null));
+  handleResetSearch = () => {
+    this.setState({searchText: ''}, () => this.props.dispatch(updateCustomerAction(null)));
+  };
+
+  handleResetVariation = () => {
+    this.setState({tolerance: null}, this.updateVariation);
   };
 
   render() {
@@ -63,6 +82,7 @@ class ControlCard extends Component {
         <CardText>
           <div className="searchField">
             <AutoComplete
+              textFieldStyle={{width: 224}}
               floatingLabelText="Customer name"
               searchText={this.state.searchText}
               onUpdateInput={this.handleUpdateInput}
@@ -70,32 +90,38 @@ class ControlCard extends Component {
               dataSource={this.state.customersList.map(customer => stringTools.capitalizeFirstLetter(customer.name)).sort()}
               filter={AutoComplete.caseInsensitiveFilter}
               openOnFocus
-              //maxSearchResults={5}
               menuProps={{maxHeight: 250, width: 256}}
             />
-            <IconButton style={{marginLeft: '-16px'}} touch onTouchTap={this.handleReset}>
+            <IconButton style={{marginLeft: '-16px'}} touch onTouchTap={this.handleResetSearch}>
               <CloseIcon />
             </IconButton>
           </div>
           <div className="variationControl">
             <h2>Select period and variation rate below to list customers accordingly</h2>
-            <SelectField
-              floatingLabelText="Period"
-              value={this.state.variationPeriod}
-              onChange={this.handleVariationPeriodChange}
-            >
-              {this.props.periods.map(p => <MenuItem key={p} value={p} primaryText={p} />)}
-            </SelectField>
-            <TextField
+            <div className="variationField">
+              <TextField
               type="number"
               floatingLabelText="Variation tolerance (%)"
               onChange={this.handleToleranceInputChange}
-            />
+              value={this.state.tolerance === null ? '' : this.state.tolerance}
+              />
+              <IconButton style={{marginLeft: '-16px'}} touch onTouchTap={this.handleResetVariation}>
+                <CloseIcon />
+              </IconButton>
+            </div>
+            <SelectField
+              floatingLabelText="Period"
+              value={this.state.period}
+              onChange={this.handlePeriodChange}
+              disabled={this.state.tolerance === null}
+            >
+              {this.props.periods.map(p => <MenuItem key={p} value={p} primaryText={p} />)}
+            </SelectField>
             <SelectField
               floatingLabelText="Variation Group"
-              value={this.state.variationGroup}
-              onChange={this.handleVariationGroupChange}
-              disabled={this.state.variationTolerance === null}
+              value={this.state.group}
+              onChange={this.handleGroupChange}
+              disabled={this.state.tolerance === null}
             >
               <MenuItem value={0} primaryText="Within" />
               <MenuItem value={1} primaryText="Above" />
@@ -116,11 +142,17 @@ ControlCard.propTypes = {
     })
   ).isRequired,
   dispatch: PropTypes.func.isRequired,
-  customer: PropTypes.object
+  customer: PropTypes.object,
+  variation: PropTypes.shape({
+    tolerance: PropTypes.number,
+    group: PropTypes.number.isRequired,
+    period: PropTypes.string.isRequired
+  })
 };
 
 const mapStateToProps = state => ({
-  customer: getControlsCustomer(state)
+  customer: getControlsCustomer(state),
+  variation: getControlsVariation(state)
 });
 
 export default connect(mapStateToProps)(ControlCard);

@@ -3,7 +3,8 @@
     width: 304px;
 }
 
-.searchField {
+.searchField, .variationField {
+    width: 256px;
     display: flex;
     flex-direction: row;
     align-items: flex-end;

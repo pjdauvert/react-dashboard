@@ -18,17 +18,17 @@ export function updateCustomerAction(customer) {
   };
 }
 
-export const showCumulativeChart = (usage, range) => {
+export const loadCumulativeChart = (usage, range) => {
   return dispatch =>  {
     dispatch(updateChartAction(buildCumulativeCustomerUsage(usage, range)));
     dispatch(updateCustomerAction(null));
   }
 };
 
-export const showCustomerChart = (customer, usageData, range) => {
+export const loadCustomerChart = (customer, usageData, range) => {
   return dispatch =>  dispatch(updateChartAction(buildCustomerUsage(customer, usageData, range)));
 };
 
-export const showCustomerStats = (customer, globals) => {
+export const loadCustomerStats = (customer, globals) => {
   return dispatch =>  dispatch(updateCustomerAction(getCustomerUsageDelta(customer, globals)));
 };
