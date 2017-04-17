@@ -15,8 +15,8 @@ import CustomerList from '../Customer/component/CustomerList';
 
 // actions
 import { loadCumulativeChart, loadCustomerChart, loadCustomerStats } from '../Chart/ChartActions';
+import { loadCustomersList } from '../Customer/CustomerActions';
 import { getControlsCustomer, getControlsVariation } from '../Control/ControlReducer';
-
 import './App.css';
 
 class App extends Component {
@@ -26,16 +26,20 @@ class App extends Component {
   };
 
   componentWillReceiveProps(props){
-    const { variation, customer, dispatch, data: { usage, range, globals } } = props;
+    const { variation, customer, dispatch, data: { usage, range, globals, customers } } = props;
     if(customer && customer !== null) {
       this.setState({showCustomerList: false}, () => {
         loadCustomerChart(customer, usage, range)(dispatch);
         loadCustomerStats(customer, globals)(dispatch);
       });
     } else if(variation && variation !== null && variation.tolerance !== null ) {
-      this.setState({showCustomerList: true});
+      this.setState({showCustomerList: true}, () => {
+        loadCustomersList(variation, globals, customers)(dispatch);
+      });
     } else {
-      this.setState({showCustomerList: false}, () => loadCumulativeChart(usage, range)(dispatch));
+      this.setState({showCustomerList: false}, () => {
+        loadCumulativeChart(usage, range)(dispatch);
+      });
     }
   }
 

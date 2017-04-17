@@ -2,26 +2,30 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 
-import { getControlsVariation } from '../../Control/ControlReducer';
+import CustomerCard from './CustomerCard';
+import customerShape from './CustomerShape';
+import { getCustomers } from '../CustomerReducer';
+import './Customer.css';
 
 class CustomerList extends Component {
   render() {
-    return (<div>Customer List</div>);
+    const { customers, width } = this.props;
+    return (
+      <div className="CustomerList" style={{width}}>
+        {customers && customers.length !== 0 ?
+            customers.map(customer => <CustomerCard key={customer.salesforceId} customer={customer} width={width} />) : 'No customers found with these criteria'}
+      </div>);
   }
 }
 
 CustomerList.propTypes = {
   width: PropTypes.number.isRequired,
   dispatch: PropTypes.func.isRequired,
-  variation: PropTypes.shape({
-    tolerance: PropTypes.number,
-    group: PropTypes.number.isRequired,
-    period: PropTypes.string.isRequired
-  })
+  customers: PropTypes.arrayOf(customerShape)
 };
 
 const mapStateToProps = state => ({
-  variation: getControlsVariation(state)
+  customers: getCustomers(state)
 });
 
 export default connect(mapStateToProps)(CustomerList);

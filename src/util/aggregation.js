@@ -87,6 +87,18 @@ export const getCustomerUsageDelta = (customer, globals) => {
   return consolidatedCustomer;
 };
 
-export const getCustomersUsageDelta = (customers, globals) => {
+const getCustomersUsageDelta = (customers, globals) => {
   return customers.map(customer => getCustomerUsageDelta(customer, globals));
+};
+
+export const getCustomersFromVariation = (variation, globals, customers) => {
+  const consolidatedCustomer = getCustomersUsageDelta(customers, globals);
+  const { period, tolerance, group } = variation;
+  return consolidatedCustomer.filter(customer => {
+    if(customer.usage[period].predictedUsage === 0) return false;
+    const periodDelta = customer.usage[period].delta * 100;
+    if( group === 1 ) return periodDelta > tolerance; // 1 - above tolerance
+    else if( group === 2) return periodDelta < -tolerance; // 2 - below tolerance
+    else return periodDelta <= tolerance && periodDelta >= -tolerance; // 0 - in tolerance
+  });
 };

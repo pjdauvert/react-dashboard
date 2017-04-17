@@ -1,4 +1,5 @@
 import React from 'react';
+import { PropTypes } from 'prop-types';
 import { Card, CardTitle, CardText } from 'material-ui/Card';
 import CustomerView from '../../Customer/component/CustomerView';
 import customerShape from '../../Customer/component/CustomerShape';

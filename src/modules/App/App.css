@@ -26,7 +26,8 @@
   text-align: left;
   padding-top: 64px;
   display: flex;
+  align-items: flex-start;
   margin: auto;
   flex-flow: row wrap;
-  justify-content: space-around;
+  justify-content: space-between;
 }
