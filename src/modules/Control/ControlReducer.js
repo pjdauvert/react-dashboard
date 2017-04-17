@@ -15,8 +15,8 @@ const ControlReducer = (state = initialState, action) => {
 };
 
 /* Selectors */
-export const getControls = (state) => {
-  return state.controls.data;
+export const getControlsCustomer = (state) => {
+  return state.controls.data.customer;
 };
 
 // Export Reducer

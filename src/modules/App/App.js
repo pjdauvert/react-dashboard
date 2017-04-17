@@ -12,17 +12,23 @@ import * as theming from './theming';
 import ChartCard from '../Chart/component/ChartCard';
 import ControlCard from '../Control/component/ControlCard';
 
-// init actions
-import { buildCumulativeCustomerUsage } from '../../util/chartDataBuilder';
-import { updateChartAction } from '../../modules/Chart/ChartActions';
+// actions
+import { showCumulativeChart, showCustomerChart } from '../Chart/ChartActions';
+import { getControlsCustomer } from '../Control/ControlReducer';
 
 import './App.css';
 
 class App extends Component {
 
+  componentWillReceiveProps(props){
+    const { customer, dispatch, data: { usage, range } } = props;
+    if(!customer || customer === null) showCumulativeChart(usage, range)(dispatch);
+    else showCustomerChart(customer, usage, range)(dispatch)
+  }
+
   componentDidMount(){
-    const { data: { usage, range } } = this.props;
-    this.props.dispatch(updateChartAction(buildCumulativeCustomerUsage(usage, range)))
+    const { dispatch, data: { usage, range } } = this.props;
+    showCumulativeChart(usage, range)(dispatch);
   }
 
   render() {
@@ -59,11 +65,13 @@ class App extends Component {
 
 App.propTypes = {
   data: PropTypes.object.isRequired,
+  customer: PropTypes.object,
   dispatch: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  data: getData(state)
+  data: getData(state),
+  customer: getControlsCustomer(state)
 });
 
 export default connect(mapStateToProps)(App);

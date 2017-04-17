@@ -1,5 +1,5 @@
 import { buildChartData, aggregateCumulativeData } from './aggregation';
-
+import * as theming from '../modules/App/theming';
 
 // return flattened chart plots representing aggregated cumulative usage of customers
 export const buildCumulativeCustomerUsage = (usageData, range) => {
@@ -13,12 +13,38 @@ export const buildCumulativeCustomerUsage = (usageData, range) => {
       {
         field: 'actualUsage',
         name: 'Actual usage',
-        color: '#ff5722'
+        color: theming.primaryColor
       },
       {
         field: 'predictedUsage',
         name: 'Predicted usage',
-        color: '#03a9f4',
+        color: theming.secondaryColor
+      }
+    ],
+    // x : plot => new Date(plot.year, plot.month - 1, 1)
+    // xScale: 'time',
+    x : plot => `${plot.month}/${plot.year}`, // x is a function that returns a comparable value out of the plot data
+    xScale: 'ordinal',
+  };
+};
+
+export const buildCustomerUsage = (customer, usageData, range) => {
+  const customerData = usageData.filter(data => data.salesforceId === customer.salesforceId);
+  return {
+    title: `${customer.name} usage`,
+    subtitle: 'Amount per month',
+    description: `This chart shows trend for ${customer.name} with actual usage and predicted usage. Manager is ${customer.manager}. Owner is ${customer.owner}. Country: ${customer.country}`,
+    chartData: buildChartData(customerData, range),
+    chartSeries: [
+      {
+        field: 'actualUsage',
+        name: 'Actual usage',
+        color: theming.primaryColor
+      },
+      {
+        field: 'predictedUsage',
+        name: 'Predicted usage',
+        color: theming.secondaryColor
       }
     ],
     // x : plot => new Date(plot.year, plot.month - 1, 1)

@@ -1,4 +1,3 @@
-
 export const CUSTOMER_CONTROL_UPDATE = 'CUSTOMER_CONTROL_UPDATE';
 
 export function updateCustomerAction(customer) {
@@ -6,8 +5,4 @@ export function updateCustomerAction(customer) {
     type: CUSTOMER_CONTROL_UPDATE,
     customer,
   };
-}
-
-export function displayCustomerChart(customer) {
-  
 }

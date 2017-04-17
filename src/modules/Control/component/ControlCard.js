@@ -5,7 +5,7 @@ import { Card, CardTitle, CardText } from 'material-ui/Card';
 import AutoComplete from 'material-ui/AutoComplete';
 import CloseIcon from 'material-ui/svg-icons/navigation/close';
 import IconButton from 'material-ui/IconButton';
-import { getControls } from '../ControlReducer';
+import { getControlsCustomer } from '../ControlReducer';
 import { updateCustomerAction } from '../ControlActions';
 import './Control.css';
 
@@ -16,7 +16,7 @@ class ControlCard extends Component {
   };
 
   componentWillReceiveProps(props) {
-    if(this.state.searchText === '' && props.controls && props.controls.customer) this.setState({ searchText: props.controls.customer.name });
+    if(this.state.searchText === '' && props.customer) this.setState({ searchText: props.customer.name });
   };
 
   handleUpdateInput = (searchText) => {
@@ -66,13 +66,11 @@ ControlCard.propTypes = {
     })
   ).isRequired,
   dispatch: PropTypes.func.isRequired,
-  controls: PropTypes.shape({
-    customer: PropTypes.object
-  })
+  customer: PropTypes.object
 };
 
 const mapStateToProps = state => ({
-  controls: getControls(state)
+  customer: getControlsCustomer(state)
 });
 
 export default connect(mapStateToProps)(ControlCard);
