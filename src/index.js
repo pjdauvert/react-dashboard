@@ -11,6 +11,9 @@ import reducers from './reducers';
 import sample from './sophia-test.json';
 import getInitialState from './util/dataAdapter';
 
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin();
+
 const store  = createStore(reducers, getInitialState(sample));
 const mountApp = document.getElementById('root');
 

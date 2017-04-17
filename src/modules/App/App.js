@@ -8,8 +8,11 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import * as theming from './theming';
 
-// chart interactions
+// components
 import ChartCard from '../Chart/component/ChartCard';
+import ControlCard from '../Control/component/ControlCard';
+
+// init actions
 import { buildCumulativeCustomerUsage } from '../../util/chartDataBuilder';
 import { updateChartAction } from '../../modules/Chart/ChartActions';
 
@@ -46,6 +49,7 @@ class App extends Component {
             </div>
           </div>
           <div className="App-content">
+            <ControlCard customers={this.props.data.customers} />
             <ChartCard width={800} />
           </div>
         </div>
