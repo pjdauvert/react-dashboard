@@ -5,7 +5,6 @@ import { CUSTOMER_CONTROL_UPDATE, VARIATION_CONTROL_UPDATE } from './ControlActi
 const initialState = { customer: null, variation: null };
 
 const ControlReducer = (state = initialState, action) => {
-  const { customer, variation } = state;
   switch (action.type) {
     case CUSTOMER_CONTROL_UPDATE: return {
       customer: action.customer,
