@@ -46,3 +46,11 @@ Resources
 https://www.fullstackreact.com/
 
 https://github.com/facebookincubator/create-react-app
+
+http://redux.js.org/
+
+http://www.material-ui.com/
+
+http://www.reactd3.org/
+
+https://momentjs.com/
