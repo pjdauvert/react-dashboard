@@ -24,10 +24,12 @@ class ControlCard extends Component {
   };
   
   componentWillReceiveProps(props) {
-    if (props.customer && props.customer.name !== this.state.searchText) this.setState({searchText: props.customer.name.toLowerCase()});
-    if (props.variation && props.variation.tolerance !== this.state.tolerance) {
+    if (props.customer && props.customer !== null && props.customer.name !== this.state.searchText){
+      this.setState({searchText: stringTools.capitalizeFirstLetter(props.customer.name), tolerance: null});
+    }
+    else if (props.variation && props.variation !== null && props.variation.tolerance !== this.state.tolerance) {
       const { tolerance, period, group } = props.variation;
-      this.setState({tolerance, group, period});
+      this.setState({tolerance, group, period, searchText: ''});
     }
   };
 
@@ -48,9 +50,8 @@ class ControlCard extends Component {
   handleToleranceInputChange = (event, tolerance) => {
     const formattedTolerance = Number(tolerance) || null;
     if(tolerance < 0) this.setState({tolerance: null}, this.updateVariation);
-    else this.setState({tolerance: formattedTolerance}, () => {
+    else this.setState({tolerance: formattedTolerance, searchText: ''}, () => {
       this.updateVariation();
-      this.handleResetSearch();
     });
   };
 
@@ -63,16 +64,19 @@ class ControlCard extends Component {
     if (!selectedCustomer) this.handleResetSearch();
     else {
       this.props.dispatch(updateCustomerAction(selectedCustomer));
-      this.handleResetVariation();
     }
   };
 
   handleResetSearch = () => {
-    this.setState({searchText: ''}, () => this.props.dispatch(updateCustomerAction(null)));
+    if(this.state.searchText !== '') {
+      this.setState({searchText: ''}, () => this.props.dispatch(updateCustomerAction(null)));
+    }
   };
 
   handleResetVariation = () => {
-    this.setState({tolerance: null}, this.updateVariation);
+    if(this.state.tolerance !== null) {
+      this.setState({tolerance: null}, this.updateVariation);
+    }
   };
 
   render() {

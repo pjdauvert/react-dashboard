@@ -9,10 +9,10 @@ const ControlReducer = (state = initialState, action) => {
   switch (action.type) {
     case CUSTOMER_CONTROL_UPDATE: return {
       customer: action.customer,
-      variation
+      variation: null
     };
     case VARIATION_CONTROL_UPDATE: return {
-      customer,
+      customer: null,
       variation: action.variation
     };
     default:
