@@ -8,7 +8,7 @@ import './index.css';
 import reducers from './reducers';
 
 // Initial data
-import sample from './sophia-test.json';
+import sample from './data-test.json';
 import getInitialState from './util/dataAdapter';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
