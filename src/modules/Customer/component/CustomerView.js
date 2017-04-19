@@ -9,7 +9,7 @@ const renderStat = (period, stat) => (
       <td>{period}</td>
       <td>{stat.predictedUsage}</td>
       <td>{stat.actualUsage}</td>
-      <td style={{ color: stat.delta >= 0 ? theming.secondaryColor : theming.accentColor}}>
+      <td style={{ color: stat.delta >= 0 ? theming.primaryColor : theming.accentColor}}>
         {formatPercent(stat.delta, 2)}
       </td>
     </tr>

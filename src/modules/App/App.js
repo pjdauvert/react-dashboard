@@ -57,7 +57,7 @@ class App extends Component {
         primary3Color: theming.primaryColorLight,
         accent1Color: theming.accentColor,
         accent2Color: theming.accentColorDark,
-        accent3Color: theming.secondaryColor,
+        accent3Color: theming.accentColorLight,
         textColor: theming.textColor,
         alternateTextColor: theming.whiteColor,
         canvasColor: theming.whiteColor,
@@ -67,7 +67,7 @@ class App extends Component {
     return (<MuiThemeProvider muiTheme={muiTheme}>
         <div className="App">
           <div className="App-header">
-            <img src="/assets/logo.svg" className="App-logo" alt="logo" />
+            <img src="/assets/logo-codecrafters.svg" className="App-logo" alt="logo" />
             <div className="App-menu">
             </div>
           </div>

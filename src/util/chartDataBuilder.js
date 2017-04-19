@@ -19,7 +19,7 @@ export const buildCumulativeCustomerUsage = (usageData, range) => {
       {
         field: 'predictedUsage',
         name: 'Predicted usage',
-        color: theming.secondaryColor
+        color: theming.accentColor
       }
     ],
     x : plot => `${plot.month}/${plot.year}`, // x is a function that returns a comparable value out of the plot data
@@ -42,7 +42,7 @@ export const buildCustomerUsage = (customer, usageData, range) => {
       {
         field: 'predictedUsage',
         name: 'Predicted usage',
-        color: theming.secondaryColor
+        color: theming.accentColor
       }
     ],
     x : plot => `${plot.month}/${plot.year}`, // x is a function that returns a comparable value out of the plot data
